@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="js/index.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://jannn1.hu/images/melogo.png">
+
+
+    <title>MeloGo</title>
+</head>
+<body>
+    <div id="layout">
+        <!-- Főoldal tartalma -->
+        <div class="homepage show" id="homepage">
+            <!-- Hero szekció -->
+            <section class="hero">
+                <h1>Találj alkalmi munkát gyorsan a Melo<span>Go</span>-val!</h1>
+                <p>Összekötjük a munkakeresőket és a megbízókat – egyszerűen, hatékonyan.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="mainjobs">Munkák megtekintése</button>
+                    <button class="btn btn-secondary" id="mainnewjob">Munka meghirdetése</button>
+                </div>
+            </section>
+
+            <!-- Miért válassz minket? szekció -->
+            <section class="why-choose">
+                <h2>Miért válassz minket?</h2>
+                <p>Platformunk segít gyorsan megtalálni a legjobb alkalmi munkákat.</p>
+                <div class="why-choose-cards">
+                    <div class="card">
+                        <h3>Rugalmas lehetőségek</h3>
+                        <p>Találj rövid távú munkákat, amelyek illenek az időbeosztásodhoz.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Megbízható partnerek</h3>
+                        <p>Csatlakozz ellenőrzött hirdetőkhöz és munkakeresőkhöz.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Gyors jelentkezés</h3>
+                        <p>Egy kattintással jelentkezhetsz a neked tetsző munkákra.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Legfrissebb munkák szekció -->
+            <section class="recent-jobs">
+                <h2>Legfrissebb munkák</h2>
+                <p>Találd meg a legújabb alkalmi munkalehetőségeket!</p>
+                <div class="job-cards" id="homepage-job-cards">
+                    <!-- A munkák dinamikusan töltődnek be JavaScripttel -->
+                </div>
+                <a class="view-all" id="viewalljobs">Összes munka megtekintése <i class="fas fa-arrow-right"></i></a>
+            </section>
+
+            <!-- Lábléc -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-logo">
+                        <h3>Alkalmi Munka</h3>
+                        <p>A legjobb platform alkalmi munkákhoz.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Linkek</h4>
+                        <a href="#">Kapcsolat</a>
+                        <a href="#">GYIK</a>
+                        <a href="#">Adatvédelem</a>
+                        <a href="#">Felhasználási feltételek</a>
+                    </div>
+                </div>
+                <p class="footer-copy">© 2025 Alkalmi Munka. Minden jog fenntartva.</p>
+            </footer>
+        </div>
+        <!--Munkák része-->
+        <div id="container">
+            <div class="containerheader" id="containerheader">
+                <span class="title">Munkák</span>
+                <div class="search-container">
+                    <div class="search-group">
+                        <svg class="searchicon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+                        <input placeholder="Job title, skills, or keywords" type="search" class="search-input" id="search">
+                    </div>
+                </div>
+                <div class="filters-container">
+                    <div class="tag-container">
+                        <label>Kategória</label>
+                        <div class="custom-multi-select">
+                            <div class="select-container" id="groupselect" tabindex="0">
+                                <div class="selected-items" id="selectedgroup">Válassz...</div>
+                                <div class="dropdown" id="dropdowngroup"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tag-container">
+                        <label>Helyszínek</label>
+                        <div class="custom-multi-select">
+                            <div class="select-container" id="locationselect" tabindex="0">
+                                <div class="selected-items" id="selectedlocation">Válassz...</div>
+                                <div class="dropdown" id="dropdownlocation"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="job-info">
+                    <p class="job-count" id="job-count">0 találat</p>
+                    <div class="clear-button" id="clearbtn">X Clear</div>
+                </div>
+            </div>
+            
+            <div class="loader containeritem"></div>
+        </div>
+        <div id="nav">
+            <div class="navitem">
+                <div class="navtext">Menü</div>
+                <div id="navico" class="navicons">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+            <div class="navitem" id="home">
+                <div class="navtext">Főoldal</div>            
+                <div class="navicons">
+                    <svg viewBox="-1.6 -1.6 19.20 19.20" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#0084ff"><g id="SVGRepo_tracerCarrier" stroke-width="0"></g><g id="SVGRepo_iconCarrier"> <path d="M1 6V15H6V11C6 9.89543 6.89543 9 8 9C9.10457 9 10 9.89543 10 11V15H15V6L8 0L1 6Z" fill="#0084ff"></path></g></svg>
+                </div>
+            </div>
+            <div class="navitem" id="jobs">
+                <div class="navtext">Munkák</div>
+                <div class="navicons">
+                    <svg fill="#000000" viewBox="0 0 24 24" data-name="Line Color" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M16,7H8V4A1,1,0,0,1,9,3h6a1,1,0,0,1,1,1Zm1,4H7m8,0v2" style="fill: none; stroke: #0084FF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><rect id="primary" x="5" y="5" width="14" height="18" rx="1" transform="translate(26 2) rotate(90)" style="fill: none; stroke: #0084FF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></rect></g></svg>                </div>
+                </div>
+            <div class="navitem" id="savedjobs">
+                <div class="navtext">Mentett munkák</div>
+                <div class="navicons">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.5 18.8637V8.07579C18.5 5.99472 17.0378 4.20351 15.0077 3.7977C13.022 3.40077 10.978 3.40077 8.99225 3.7977C6.96219 4.20351 5.5 5.99472 5.5 8.07579V18.8637C5.5 20.1258 6.8627 20.9113 7.94601 20.2737L10.9053 18.5317C11.5814 18.1337 12.4186 18.1337 13.0947 18.5317L16.054 20.2737C17.1373 20.9113 18.5 20.1258 18.5 18.8637Z" fill="#0084FF" fill-opacity="0.15" stroke="#0084FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                </div>
+            </div>
+            <div class="navitem" id="newjob">
+                <div class="navtext">Új munka létrehozása</div>
+                <div class="navicons">
+                    <svg viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#0084FF" transform="translate(85.333333, 85.333333)"> <path d="M170.666667,1.42108547e-14 C264.923264,-3.10380131e-15 341.333333,76.4100694 341.333333,170.666667 C341.333333,264.923264 264.923264,341.333333 170.666667,341.333333 C76.4100694,341.333333 2.57539587e-14,264.923264 1.42108547e-14,170.666667 C2.6677507e-15,76.4100694 76.4100694,3.15255107e-14 170.666667,1.42108547e-14 Z M192,85.3333333 L149.333333,85.3333333 L149.333333,149.333333 L85.3333333,149.333333 L85.3333333,192 L149.333333,191.999333 L149.333333,256 L192,256 L191.999333,191.999333 L256,192 L256,149.333333 L191.999333,149.333333 L192,85.3333333 Z"> </path> </g> </g> </g></svg>
+                </div>
+            </div>
+            
+            <div class="navitem" id="navuser">
+                <div class="navtext" id="username">Felhasználónév</div>
+                <div class="navicons">
+                    <img id="usericon" src="
+                    data:image/png;base64,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
+                    " alt="Felhasználó profilkép">
+                    <div id="notification" class="alert">!</div>
+                </div>            
+            </div>
+        </div>
+        <div id="navusermanage">
+            <div id="myjobs">
+                <div class="umanagetitle">Munkáim</div>
+                <div id="myjobsalert" class="alert">!</div>
+            </div>
+            <div id="jobapplications">
+                <div class="umanagetitle">Jelentkezéseim</div>
+                <div id="alertapp" class="alert">!</div>
+            </div>
+            <div id="userdata">
+                <div class="umanagetitle">Adatok</div>
+                <div id="userdataalert" class="alert">!</div>
+            </div>
+            <div id="myprofile">
+                <div class="umanagetitle">Profilom</div>
+            </div>          
+            <div id="logout">
+                <div class="umanagetitle">Kijelentkezés</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="blur-background"></div>
+
+
+    <button class="close-button" id="jobviewx" >X</button>
+    <div id="jobfullview">
+        <div class="content">
+            <div class="job-header-container">
+                <div class="job-header">
+                    <h1>Frontend Developer</h1>
+                    <span class="job-badge" id="job-status">Nyitva</span>
+                </div>
+                <div class="job-meta" id="job-categorys">
+                    
+                    
+                </div>
+            </div>
+            <div class="job-description-container">
+                <h2>Munka leírása:</h2>
+                <p id="job-description">
+                    job-description-container
+                    job-description-container
+                    job-description-container
+                </p>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="job-details-container">
+                <h2>Munka részletei</h2>
+                <p><strong>Meghirdetés dátuma:</strong><span id="job-createdate"></span></p>
+                <p><strong>Helyszín:</strong><span id="job-location"></span></p>
+                <p><strong>Fizetés:</strong><span id="job-salary"></span></p>
+                <p><strong>Időtartam:</strong><span id="job-time"></span></p>
+                <p><strong>Határidő:</strong><span id="job-date"></span></p>
+                <p><strong>Hirdető:</strong><span id="job-owner">asdad</span></p>
+            </div>
+            <div class="apply-section-container">
+                <h2>Jelentkezés a munkára</h2>
+                <button class="apply-button" id="jobactionbutton">Jelentkezés most →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="userpanel">
+        <div class="panelheader">
+            <h1 id="panelheader"></h1>
+            <div id="upcheckcontainer">
+                <span>Lezárt munkák:</span>
+                <input type="checkbox" id="upanelcheck">
+            </div>
+            <div class="header-search" id="upanelsearchcontainer">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <g>
+                      <path
+                        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+                      ></path>
+                    </g>
+                  </svg>
+                  <input
+                    id="panelsearch"
+                    type="search"
+                    placeholder="Keresés..."
+                  />
+            </div>
+            <button class="close-button" id="panelx">X</button>
+        </div>
+        <div class="scrollable-content" id="panelcontent">
+            <div class="useredit">
+                <div class="from-group">
+                    <label for="vname" class="formlabel">Vezetéknév: </label>
+                    <input type="text" id="vname" placeholder="Nagy">    
+                </div>
+                <div class="from-group">
+                    <label for="kname" class="formlabel">Keresztnév: </label>
+                    <input type="text" id="kname" placeholder="Pista">    
+                </div>
+                
+                <div class="form-group">
+                    <label for="pw" class="formlabel">Új jelszó létrehozása: </label>
+                    <input type="text" id="pw" placeholder="Új jelszó">                    
+                </div>
+                <div class="form-group">
+                    <label for="pw2" class="formlabel">Erősítse meg a jelszavat: </label>
+                    <input type="text" id="pw2" placeholder="Új jelszó">
+                </div>
+            </div>
+            <div class="useredit">
+                <div class="form-group">
+                    <label for="phonenumber" class="formlabel">Telefonszám: </label>
+                    <input type="text" id="phonenumber" placeholder="06301234567" pattern="[0-9]{11}">
+                </div>       
+                <div class="form-group">
+                    <label for="birthdate" class="formlabel">Születési dátum: </label>
+                    <input type="date" id="birthdate">
+                </div>
+                <div class="form-group">
+                    <label for="bio" class="formlabel">Bemutatkozó:</label>
+                    <textarea id="bio" placeholder="Írj magadról bemutatkozót"></textarea>
+                </div>
+                
+            </div>
+            <div class="useredit">
+                    <label for="profile-image" class="formlabel">Profilkép</label>
+                    <div class="image-preview" id="imagePreview">
+                        <img src="" alt="Image Preview" id="usericonpreview">
+                        <span id="uicpreviewtext">Nincs kép kiválasztva</span>
+                    </div>
+                    <input type="file" name="profile_image" id="profile-image">
+            </div>            
+        </div>
+        <button class="save-button" id="savedatas">Mentés</button>
+    </div>
+
+    <!--Munka jentkezés lista-->
+
+    <div id="application-panel" data-action="">
+        <div class="panel-header">
+            <div class="header-title" id="apppanelheader">Jelentkezések</div>
+            <div class="header-option active" data-section="elfogadva">Elfogadottak<div id="jobaccept" class="alert">!</div></div>
+            <div class="header-option" data-section="elutasítva">Elutasítottak<div id="jobreject" class="alert">!</div></div>
+            <div class="header-option" data-section="függőben">Függőben<div id="jobdepeding" class="alert">!</div></div>
+            <button class="close-button" id="applicationclose">X</button>
+        </div>
+        <div id="applications-container"></div>
+    </div>
+
+
+    <!--Profil megtekintese-->
+    <div id="profileview">
+        <div class="profile-card">
+            <div class="pcard-sidebar">
+                <img src="https://jannn1.hu/images/hbsz.png" id="pcard-avatar">
+                <h1 id="pcard-name">John Doe</h1>
+                <p class="pcard-info">Születési dátum: <span id="pcard-bdate">2009.01.01</span></p>
+                <p class="pcard-info">Regisztráció dátuma: <span id="pcard-regdate">2009.01.01</span></p>
+                <p class="pcard-info">Telefonszám: <span id="pcard-phone">2009.01.01</span></p>
+                <div class="pcard-rating-summary" id="pcard-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    <span>4.5 (2 ratings)</span>
+                </div>
+            </div>
+            <div class="pcard-content-area">
+                <div class="pcard-tabs">
+                    <button class="pcard-tab pcard-active" data-tab="pcard-about">Profil</button>
+                    <button class="pcard-tab" data-tab="pcard-jobs">Meghirdetett munkái</button>
+                    <button class="pcard-tab" data-tab="pcard-ratings">Értékelések</button>
+                    <button class="close-button" id="profileviewx">X</button>
+                </div>
+                <div id="pcard-about" class="pcard-tab-content pcard-active">
+                    <h2>Bio</h2>
+                    <p id="pcard-bio">Experienced developer with 5 years in web development</p>
+                </div>
+                <div id="pcard-jobs" class="pcard-tab-content">
+                    <h2>Meghirdetett munkái</h2>
+                    <div id="pcard-jobs-container">
+
+                    </div>
+                </div>
+                <div id="pcard-ratings" class="pcard-tab-content">
+                    <h3>Írjon értékelést</h3>
+                    <div id="pcard-new-rating-form">
+                        <div class="pcard-form-group pcard-star-input-container">
+                            <span class="pcard-star-label">Értékelés:</span>
+                            <i class="fas fa-star" data-value="1"></i>
+                            <i class="fas fa-star" data-value="2"></i>
+                            <i class="fas fa-star" data-value="3"></i>
+                            <i class="fas fa-star" data-value="4"></i>
+                            <i class="fas fa-star" data-value="5"></i>
+                            <input type="hidden" id="pcard-rating-score-hidden" name="score" required value="">
+                        </div>
+                        <div class="pcard-form-group">
+                            <label for="pcard-rating-description">Írja le gondolatait:</label>
+                            <textarea id="pcard-rating-description" name="description" required></textarea>
+                        </div>
+                        <button id="pcard-new-rating-form-btn">Értékelés jóváhagyása</button>
+                    </div>
+                    <h2>Értékelések</h2>
+                    <div class="pcard-ratings-list" id="pcard-ratings-list-container">
+                        <div class="pcard-rating-item">
+                            <div class="pcard-rating-header">
+                                <span class="pcard-username">Jane Smith</span>
+                                <span class="pcard-stars" data-rating="5"></span>
+                            </div>
+                            <p class="pcard-description">Excellent developer, very knowledgeable and delivered great results!</p>
+                        </div>
+                        <div class="pcard-rating-item">
+                            <div class="pcard-rating-header">
+                                <span class="pcard-username">Bob Johnson</span>
+                                <span class="pcard-stars" data-rating="4"></span>
+                            </div>
+                            <p class="pcard-description">Good communication, project completed on time. Would recommend.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="overlay"></div>
+    <div id="confirmPanel">
+      <p id="confirmText"></p>
+      <button id="yesBtn">Igen</button>
+      <button id="noBtn">Mégse</button>
+    </div>
+    
+
+</body>
+</html>
