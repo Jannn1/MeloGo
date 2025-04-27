@@ -1784,7 +1784,6 @@ function initProfileCardInteractions() {
             starContainer.innerHTML = generateStarsHTML(rating);
         }
     });
-
 }
 
 function showConfirm(text, onConfirm, okeText) {
